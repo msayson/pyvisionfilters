@@ -5,8 +5,7 @@ import math
 def boxfilter(n):
   assert(n % 2 == 1), "Dimension must be odd"
   val = pow(n, -2) # All filter elements have value n^-2
-  row = [val for x in range(n)] # Represent each row as an array
-  return np.array([row for x in range(n)])
+  return np.full((n, n), val) # Create n x n array filled with val
 
 # Return normalized 1D Gaussian filter
 # Fix length of filter array to (6 * sigma) rounded up to next odd integer
