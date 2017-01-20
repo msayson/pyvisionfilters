@@ -28,11 +28,6 @@ class TestVisionFilters(unittest.TestCase):
     assertGauss1DFilter(self, visionfilters.gauss1d(1.0), 7)
     assertGauss1DFilter(self, visionfilters.gauss1d(2.0), 13)
 
-  def test_arrayOfDistancesFromCenter(self):
-    self.assertTrue(np.array_equal(visionfilters.arrayOfDistancesFromCenter(1), np.array([0])))
-    self.assertTrue(np.array_equal(visionfilters.arrayOfDistancesFromCenter(3), np.array([-1,0,1])))
-    self.assertTrue(np.array_equal(visionfilters.arrayOfDistancesFromCenter(5), np.array([-2,-1,0,1,2])))
-
 # Helper functions
 
 def assertGauss1DFilter(self, numpyArray, expectedLength):
