@@ -30,6 +30,11 @@ def gauss2d(sigma):
   unnormalizedFilter = signal.convolve2d(reshapedTo2D, reshapedTo2D.transpose())
   return normalize(unnormalizedFilter)
 
+# Return the result of applying a 2D Gaussian filter convolution to an input array
+def gaussconvolve2d(array, sigma):
+  gaussFilter = gauss2d(sigma)
+  return signal.convolve2d(array, gaussFilter, 'same')
+
 # Normalize an array so that its elements sum to approximately 1.00
 def normalize(numpyArray):
   return numpyArray / numpyArray.sum()
