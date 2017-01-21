@@ -24,7 +24,7 @@ gaussconvolve2d(array, sigma)
 
 Demonstrates applying visionfilters.gaussconvolve2d() to blur an image.
 
-Our starting file is a colour photograph of wheat, courtesy of Ryan McGuire.  See Gratisography for the [full-size image](http://www.gratisography.com/pictures/324_1.jpg).
+Our starting file is a colour image.  See Gratisography for the [full-size photograph](http://www.gratisography.com/pictures/324_1.jpg).
 ![alt-text](images/wheat.jpg "Initial colour image")
 
 For simplicity, we convert the image to grayscale so that it can be represented as a single array of light intensity values.
