@@ -1,6 +1,7 @@
 import unittest
 import visionfilters
 import numpy as np
+from scipy import signal
 
 class TestVisionFilters(unittest.TestCase):
 
@@ -24,20 +25,15 @@ class TestVisionFilters(unittest.TestCase):
       visionfilters.boxfilter(102)
 
   def test_gauss1d(self):
-    assertGauss1DFilter(self, visionfilters.gauss1d(0.3), 3)
-    assertGauss1DFilter(self, visionfilters.gauss1d(1.0), 7)
-    assertGauss1DFilter(self, visionfilters.gauss1d(2.0), 13)
+    gauss1dFilterSigma1 = visionfilters.gauss1d(1.0)
+    expectedFilter = visionfilters.normalize(signal.gaussian(7, 1.0))
+    self.assertTrue((gauss1dFilterSigma1 == expectedFilter).all())
 
   def test_gauss2d(self):
     assertGauss2DFilter(self, visionfilters.gauss2d(1.0), 7)
     assertGauss2DFilter(self, visionfilters.gauss2d(2.0), 13)
 
 # Helper functions
-
-def assertGauss1DFilter(self, numpyArray, expectedSize):
-  self.assertEqual(numpyArray.shape[0], expectedSize)
-  self.assertTrue((np.flipud(numpyArray) == numpyArray).all()) # Should be symmetric
-  assertApproxNormalized(self, numpyArray)
 
 def assertGauss2DFilter(self, numpyArray, expectedSize):
   self.assertEqual(numpyArray.shape, (expectedSize, expectedSize))
