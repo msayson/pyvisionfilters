@@ -11,4 +11,8 @@ boxfilter(n)
 # Return a normalized 1D Gaussian filter
 # Fix length of filter array to (6 * sigma) rounded up to the next odd integer
 gauss1d(sigma)
+
+# Return a 2D Gaussian filter
+# Fix side lengths to (6 * sigma) rounded up to next odd integer
+gauss2d(sigma)
 ```

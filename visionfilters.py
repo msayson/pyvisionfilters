@@ -1,5 +1,6 @@
 import numpy as np
 import math
+from scipy import signal
 
 # Return a box filter of size n by n
 # Requires n to be an odd integer
@@ -8,7 +9,7 @@ def boxfilter(n):
   # Create n x n array, every element = n^-2
   return np.full((n, n), pow(n, -2))
 
-# Return a normalized 1D Gaussian filter
+# Return a 1D Gaussian filter
 # Fix length of filter array to (6 * sigma) rounded up to next odd integer
 def gauss1d(sigma):
   # Max distance from center of the array
@@ -18,6 +19,17 @@ def gauss1d(sigma):
   distsFromCenter = np.arange(-maxDistFromCenter, maxDistFromCenter + 1)
   # unnormalizedFilter[i] = exp(-x^2 / (2*sigma^2)), where x = distance of i from array center
   unnormalizedFilter = np.exp(-pow(distsFromCenter, 2) / (2 * pow(sigma, 2)))
-  # Normalize filter so that sum of all elements ~= 1.0
-  inverseScalingFactor = unnormalizedFilter.sum()
-  return unnormalizedFilter / inverseScalingFactor
+  return normalize(unnormalizedFilter)
+
+# Return a 2D Gaussian filter
+# Fix side lengths to (6 * sigma) rounded up to next odd integer
+def gauss2d(sigma):
+  gauss1dArray = gauss1d(sigma)
+  # The 2D Gaussian filter is the convolution of the 1D Gaussian and its transpose
+  reshapedTo2D = gauss1dArray.reshape(1,gauss1dArray.size) # Reshape to allow us to transpose
+  unnormalizedFilter = signal.convolve2d(reshapedTo2D, reshapedTo2D.transpose())
+  return normalize(unnormalizedFilter)
+
+# Normalize an array so that its elements sum to approximately 1.00
+def normalize(numpyArray):
+  return numpyArray / numpyArray.sum()
