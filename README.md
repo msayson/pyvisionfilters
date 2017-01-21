@@ -27,7 +27,7 @@ Demonstrates applying visionfilters.gaussconvolve2d() to blur an image.
 Our starting file is a colour image.  See Gratisography for the [full-size photograph](http://www.gratisography.com/pictures/324_1.jpg).
 ![alt-text](images/wheat.jpg "Initial colour image")
 
-For simplicity, we convert the image to grayscale so that it can be represented as a single array of light intensity values.
+For simplicity, we convert the image to grayscale so that it can be represented as a matrix of light intensity values.
 
 ```python
 from PIL import Image
