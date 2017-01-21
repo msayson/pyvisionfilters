@@ -2,12 +2,13 @@ import numpy as np
 import math
 
 # Return a box filter of size n by n
+# Requires n to be an odd integer
 def boxfilter(n):
   assert(n % 2 == 1), "Dimension must be odd"
   # Create n x n array, every element = n^-2
   return np.full((n, n), pow(n, -2))
 
-# Return normalized 1D Gaussian filter
+# Return a normalized 1D Gaussian filter
 # Fix length of filter array to (6 * sigma) rounded up to next odd integer
 def gauss1d(sigma):
   # Max distance from center of the array
