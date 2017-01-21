@@ -16,3 +16,9 @@ gauss1d(sigma)
 # Fix side lengths to (6 * sigma) rounded up to next odd integer
 gauss2d(sigma)
 ```
+
+### Disclaimer
+
+These filters were written for educational purposes as part of an undergraduate course on computer vision, and are not intended for general use.
+
+There are a number of excellent Python libraries available that are optimized for otherwise computationally expensive tasks, such as [SciPy](https://docs.scipy.org/doc/scipy/reference/index.html) and [NumPy](https://docs.scipy.org/doc/numpy-dev/user/quickstart.html).
