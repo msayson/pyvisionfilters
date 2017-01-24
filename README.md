@@ -58,6 +58,33 @@ blurredImg.save('images/output/wheat_grayscale_blurred.jpg', 'JPEG')
 
 ![alt-text](images/output/wheat_grayscale_blurred.jpg "Blurred grayscale image")
 
+#### shrinkexample.py
+
+The Gaussian filter is also often used in pre-processing images before shrinking.  Smoothing the image removes a great deal of the graininess that would otherwise result from just taking every nth pixel of the original image.
+
+The following code generates a grayscale image scaled down in size by powers of 2.
+
+```python
+from PIL import Image
+import numpy as np
+import visionfilters
+
+img = Image.open('images/wheat.jpg')
+img = img.convert('L')     # Convert image to grayscale
+imgArray = np.asarray(img) # Convert image to an array
+
+for x in xrange(1,4):
+  # Smooth with a 2D Gaussian filter before subsampling to minimize artifacts
+  smoothedImgArray = visionfilters.gaussconvolve2d(imgArray, sigma=pow(2,-x))
+  # Sample every (2^x)-th pixel to obtain a smaller image
+  resizedImgArray = np.array([row[0::pow(2,x)] for row in smoothedImgArray[0::pow(2,x)]])
+  # Convert to uint8, then to an Image
+  resizedImg = Image.fromarray(resizedImgArray.astype('uint8'))
+  resizedImg.save('images/output/wheat_resizedBy2ToPowerOfNeg%d.jpg' % x, 'JPEG')
+```
+
+![alt-text](images/output/wheat_resizedBy2ToPowerOfNeg1.jpg "Resized by 1/2") ![alt-text](images/output/wheat_resizedBy2ToPowerOfNeg2.jpg "Resized by 1/4") ![alt-text](images/output/wheat_resizedBy2ToPowerOfNeg3.jpg "Resized by 1/8")
+
 ### Disclaimer
 
 These filters were written for educational purposes as part of an undergraduate course on computer vision, and are not intended for general use.

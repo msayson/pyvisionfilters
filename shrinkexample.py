@@ -6,7 +6,7 @@ img = Image.open('images/wheat.jpg')
 img = img.convert('L')     # Convert image to grayscale
 imgArray = np.asarray(img) # Convert image to an array
 
-for x in xrange(1,5):
+for x in xrange(1,4):
   # Smooth with a 2D Gaussian filter before subsampling to minimize artifacts
   smoothedImgArray = visionfilters.gaussconvolve2d(imgArray, sigma=pow(2,-x))
   # Sample every (2^x)-th pixel to obtain a smaller image
