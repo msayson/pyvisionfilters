@@ -60,7 +60,7 @@ blurredImg.save('images/output/wheat_grayscale_blurred.jpg', 'JPEG')
 
 #### shrinkexample.py
 
-The Gaussian filter is also often used in pre-processing images before shrinking.  Smoothing the image removes a great deal of the graininess that would otherwise result from just taking every nth pixel of the original image.
+The Gaussian filter is often used to pre-process images before shrinking.  Smoothing removes a great deal of the graininess that would otherwise result from just taking every nth pixel of the original image.
 
 The following code generates a grayscale image scaled down in size by powers of 2.
 
