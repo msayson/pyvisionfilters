@@ -69,21 +69,19 @@ from PIL import Image
 import numpy as np
 import visionfilters
 
-img = Image.open('images/wheat.jpg')
-img = img.convert('L')     # Convert image to grayscale
-imgArray = np.asarray(img) # Convert image to an array
-
-for x in xrange(1,4):
+def shrinkWithSmoothing(imgArray, scalingFactor):
   # Smooth with a 2D Gaussian filter before subsampling to minimize artifacts
-  smoothedImgArray = visionfilters.gaussconvolve2d(imgArray, sigma=pow(2,-x))
-  # Sample every (2^x)-th pixel to obtain a smaller image
-  resizedImgArray = np.array([row[0::pow(2,x)] for row in smoothedImgArray[0::pow(2,x)]])
-  # Convert to uint8, then to an Image
-  resizedImg = Image.fromarray(resizedImgArray.astype('uint8'))
-  resizedImg.save('images/output/wheat_resizedBy2ToPowerOfNeg%d.jpg' % x, 'JPEG')
+  smoothedImgArray = visionfilters.gaussconvolve2d(imgArray, sigma=pow(2,1-scalingFactor))
+  # Sample every (2^scalingFactor)-th pixel to obtain a smaller image
+  resizedImgArray = np.array([row[0::pow(2,scalingFactor)] for row in smoothedImgArray[0::pow(2,scalingFactor)]])
+  return Image.fromarray(resizedImgArray.astype('uint8'))
 ```
 
-![alt-text](images/output/wheat_resizedBy2ToPowerOfNeg1.jpg "Resized by 1/2") ![alt-text](images/output/wheat_resizedBy2ToPowerOfNeg2.jpg "Resized by 1/4") ![alt-text](images/output/wheat_resizedBy2ToPowerOfNeg3.jpg "Resized by 1/8")
+![alt-text](images/output/wheat_resized_2PowerNeg1.jpg "Resized by 1/2") ![alt-text](images/output/wheat_resized_2PowerNeg2.jpg "Resized by 1/4") ![alt-text](images/output/wheat_resized_2PowerNeg3.jpg "Resized by 1/8")
+
+Compare this to resizing the images without pre-filtering:
+
+![alt-text](images/output/wheat_resized_2PowerNeg1_noSmoothing.jpg "Resized by 1/2 without smoothing") ![alt-text](images/output/wheat_resized_2PowerNeg2_noSmoothing.jpg "Resized by 1/4 without smoothing") ![alt-text](images/output/wheat_resized_2PowerNeg3_noSmoothing.jpg "Resized by 1/8 without smoothing")
 
 ### Disclaimer
 
