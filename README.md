@@ -8,7 +8,7 @@ Linear and non-linear filters for simple computer vision tasks
 # Requires n to be an odd integer
 boxfilter(n)
 
-# Return a normalized 1D Gaussian filter
+# Return a 1D Gaussian filter
 # Fix length of filter array to (6 * sigma) rounded up to the next odd integer
 gauss1d(sigma)
 
