@@ -24,27 +24,21 @@ gaussconvolve2d(array, sigma)
 
 Demonstrates applying visionfilters.gaussconvolve2d() to blur an image.
 
-Our starting file is a colour image.  See Gratisography for the [full-size photograph](http://www.gratisography.com/pictures/324_1.jpg).
-![alt-text](images/wheat.jpg "Initial colour image")
-
-For simplicity, we convert the image to grayscale so that it can be represented as a matrix of light intensity values.
+We work on grayscale images for simplicity, since each pixel can be represented by a single light intensity value.  See Gratisography for the [full-size colour photograph](http://www.gratisography.com/pictures/324_1.jpg).
 
 ```python
 from PIL import Image
 import numpy as np
 import visionfilters
 
-# Original image from http://www.gratisography.com/pictures/324_1.jpg
-img = Image.open('images/wheat.jpg')
-
 # Convert image to grayscale
+img = Image.open('images/wheat.jpg')
 img = img.convert('L')
-img.save('images/output/wheat_grayscale.jpg', 'JPEG')
 ```
 
 ![alt-text](images/output/wheat_grayscale.jpg "Image converted to grayscale")
 
-Applying a 2D Gaussian filter convolution results blurs the image, with increasing sigma values resulting in further blurring.
+Applying a 2D Gaussian filter convolution blurs the image, with higher sigma values increasing the blurring effect.
 
 ```python
 # Convert image to an array to apply the filter convolution
@@ -60,7 +54,7 @@ blurredImg.save('images/output/wheat_grayscale_blurred.jpg', 'JPEG')
 
 #### shrinkexample.py
 
-The Gaussian filter is often used to pre-process images before shrinking.  Smoothing removes a great deal of the graininess that would otherwise result from just taking every nth pixel of the original image.
+Gaussian filters are often used in image resizing.  Smoothing removes a great deal of the graininess that otherwise results from taking every nth pixel of an image.
 
 The following code generates a grayscale image scaled down in size by powers of 2.
 
