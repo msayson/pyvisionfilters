@@ -2,29 +2,30 @@ from PIL import Image
 import numpy as np
 import visionfilters
 
-def shrinkWithSmoothing(imgArray, scalingFactor, sigma):
+def shrinkWithSmoothing(imgArray, scaleFactor, sigma):
   # Smooth with a 2D Gaussian filter before subsampling to minimize artifacts
   smoothedImgArray = visionfilters.gaussconvolve2d(imgArray, sigma)
-  # Sample every (2^scalingFactor)-th pixel to obtain a smaller image
-  resizedImgArray = np.array([row[0::pow(2,scalingFactor)] for row in smoothedImgArray[0::pow(2,scalingFactor)]])
+  # Sample every scaleFactor-th row and column to obtain a smaller image
+  resizedImgArray = np.array([row[0::scaleFactor] for row in smoothedImgArray[0::scaleFactor]])
   return Image.fromarray(resizedImgArray.astype('uint8'))
 
-def shrinkWithSmoothingAndSave(imgArray, scalingFactor, sigma):
-  resizedImg = shrinkWithSmoothing(imgArray, scalingFactor, sigma)
-  resizedImg.save('images/output/wheat_resized_2PowerNeg%d.jpg' % scalingFactor, 'JPEG')
+def shrinkWithSmoothingAndSave(imgArray, scaleFactor, sigma):
+  resizedImg = shrinkWithSmoothing(imgArray, scaleFactor, sigma)
+  resizedImg.save('images/output/wheat_shrinkByFactor%d.jpg' % scaleFactor, 'JPEG')
 
-def shrinkWithoutSmoothing(imgArray, scalingFactor):
-  resizedImgArray = np.array([row[0::pow(2,scalingFactor)] for row in imgArray[0::pow(2,scalingFactor)]])
+def shrinkWithoutSmoothing(imgArray, scaleFactor):
+  resizedImgArray = np.array([row[0::scaleFactor] for row in imgArray[0::scaleFactor]])
   return Image.fromarray(resizedImgArray.astype('uint8'))
 
 img = Image.open('images/wheat.jpg')
 img = img.convert('L')     # Convert image to grayscale
 imgArray = np.asarray(img) # Convert image to an array
 
-shrinkWithSmoothingAndSave(imgArray, scalingFactor=1, sigma=1.2)
-shrinkWithSmoothingAndSave(imgArray, scalingFactor=2, sigma=1.9)
-shrinkWithSmoothingAndSave(imgArray, scalingFactor=3, sigma=3.2)
+shrinkWithSmoothingAndSave(imgArray, scaleFactor=2, sigma=1.2)
+shrinkWithSmoothingAndSave(imgArray, scaleFactor=4, sigma=1.9)
+shrinkWithSmoothingAndSave(imgArray, scaleFactor=8, sigma=3.2)
 
-for scalingFactor in xrange(1,4):
-  resizedImgWithoutSmoothing = shrinkWithoutSmoothing(imgArray, scalingFactor)
-  resizedImgWithoutSmoothing.save('images/output/wheat_resized_2PowerNeg%d_noSmoothing.jpg' % scalingFactor, 'JPEG')
+for i in xrange(1,4):
+  scaleFactor = pow(2,i)
+  resizedImgWithoutSmoothing = shrinkWithoutSmoothing(imgArray, scaleFactor)
+  resizedImgWithoutSmoothing.save('images/output/wheat_shrinkByFactor%d_noSmoothing.jpg' % scaleFactor, 'JPEG')

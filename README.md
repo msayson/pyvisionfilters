@@ -69,19 +69,19 @@ from PIL import Image
 import numpy as np
 import visionfilters
 
-def shrinkWithSmoothing(imgArray, scalingFactor, sigma):
+def shrinkWithSmoothing(imgArray, scaleFactor, sigma):
   # Smooth with a 2D Gaussian filter before subsampling to minimize artifacts
   smoothedImgArray = visionfilters.gaussconvolve2d(imgArray, sigma)
-  # Sample every (2^scalingFactor)-th pixel to obtain a smaller image
-  resizedImgArray = np.array([row[0::pow(2,scalingFactor)] for row in smoothedImgArray[0::pow(2,scalingFactor)]])
+  # Sample every scaleFactor-th row and column to obtain a smaller image
+  resizedImgArray = np.array([row[0::scaleFactor] for row in smoothedImgArray[0::scaleFactor]])
   return Image.fromarray(resizedImgArray.astype('uint8'))
 ```
 
-![alt-text](images/output/wheat_resized_2PowerNeg1.jpg "Resized by 1/2") ![alt-text](images/output/wheat_resized_2PowerNeg2.jpg "Resized by 1/4") ![alt-text](images/output/wheat_resized_2PowerNeg3.jpg "Resized by 1/8")
+![alt-text](images/output/wheat_shrinkByFactor2.jpg "Resized by 1/2") ![alt-text](images/output/wheat_shrinkByFactor4.jpg "Resized by 1/4") ![alt-text](images/output/wheat_shrinkByFactor8.jpg "Resized by 1/8")
 
 Compare this to resizing the images without pre-filtering:
 
-![alt-text](images/output/wheat_resized_2PowerNeg1_noSmoothing.jpg "Resized by 1/2 without smoothing") ![alt-text](images/output/wheat_resized_2PowerNeg2_noSmoothing.jpg "Resized by 1/4 without smoothing") ![alt-text](images/output/wheat_resized_2PowerNeg3_noSmoothing.jpg "Resized by 1/8 without smoothing")
+![alt-text](images/output/wheat_shrinkByFactor2_noSmoothing.jpg "Resized by 1/2 without smoothing") ![alt-text](images/output/wheat_shrinkByFactor4_noSmoothing.jpg "Resized by 1/4 without smoothing") ![alt-text](images/output/wheat_shrinkByFactor8_noSmoothing.jpg "Resized by 1/8 without smoothing")
 
 ### Disclaimer
 
