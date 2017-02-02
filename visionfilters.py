@@ -18,7 +18,7 @@ def gauss1d(sigma):
   maxDistFromCenter = int(np.ceil(6 * sigma)) / 2
   distsFromCenter = np.arange(-maxDistFromCenter, maxDistFromCenter + 1)
   # unnormalizedFilter[i] = exp(-x^2 / (2*sigma^2)), where x = distance of i from array center
-  unnormalizedFilter = np.exp(-pow(distsFromCenter, 2) / (2 * pow(sigma, 2)))
+  unnormalizedFilter = np.exp(-pow(distsFromCenter, 2) / (2.0 * pow(sigma, 2)))
   return normalize(unnormalizedFilter)
 
 # Return a 2D Gaussian filter
